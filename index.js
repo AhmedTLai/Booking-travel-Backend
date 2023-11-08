@@ -14,7 +14,7 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors({
     credentials : true,
-    origin : 'http://192.168.1.129:5173',
+    origin : '*',
     allowedHeaders :{
         "Access-Control-Allow-Origin" : "http://192.168.1.129:5173/"
     }
