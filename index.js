@@ -14,11 +14,11 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors({
     credentials : true,
-    origin : 'http://192.168.1.129:5173',
+    origin : '*',
     allowedHeaders :['Content-Type', 'Authorization']
 }))
  app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://192.168.1.129:5173");
+    res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "*");
     res.header("Access-Control-Allow-Headers", "Content-Type");
     next();
