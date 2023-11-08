@@ -14,7 +14,10 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors({
     credentials : true,
-    origin : 'http://192.168.1.129:5173'
+    origin : 'http://192.168.1.129:5173',
+    allowedHeaders :{
+        "Access-Control-Allow-Origin" : "http://192.168.1.129:5173/"
+    }
 }))
 app.use(function (req, res, next) {
 
