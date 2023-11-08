@@ -14,15 +14,13 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors({
     credentials : true,
-    origin : '*',
-    allowedHeaders :{
-        "Access-Control-Allow-Origin" : "http://192.168.1.129:5173/"
-    }
+    origin : 'http://192.168.1.129:5173',
+    allowedHeaders :['Content-Type', 'Authorization']
 }))
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://192.168.1.129:5173/');
+    res.setHeader('Access-Control-Allow-Origin', 'http://192.168.1.129:5173');
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
