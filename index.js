@@ -14,27 +14,15 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors({
     credentials : true,
-    origin : 'http://192.168.1.129:5173',
+    origin : 'http://localhost:5173',
     allowedHeaders :['Content-Type', 'Authorization']
 }))
-app.use(function (req, res, next) {
-
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://192.168.1.129:5173');
-
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
-
-    // Pass to next layer of middleware
+ app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
     next();
-});
+  })
 
 
 app.use('/api/user',AuthR)
@@ -44,14 +32,14 @@ app.use('/api/tour',TourR)
 
 
 app.get('/',(req,res)=>{
-    db.connect((err)=>{
-        if(err){
-            console.log('notch hahahahahhahahahahahahahahahahahahaahahahahahahahahahahahahah')
-        }else{
-            console.log('yesssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss')
-        }
-    }
-    )
+    // db.connect((err)=>{
+    //     if(err){
+    //         console.log('notch hahahahahhahahahahahahahahahahahahaahahahahahahahahahahahahah')
+    //     }else{
+    //         console.log('yesssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss')
+    //     }
+    // }
+    // )
     res.json('its working fine !')
 })
 
