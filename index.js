@@ -46,28 +46,41 @@ app.get('/',(req,res)=>{
 
 
 
-const connection = ()=>{
-    db.connect((err)=>{
-    if(err){
-        console.log(err)
-        setTimeout(connection,2000)
-    }else{
-        app.listen(4000, ()=>{   
-            console.log('loged in')
-    })  
-    }
-    db.on('error', function(err) {
-        console.log('db error', err);
-        if(err.code === 'PROTOCOL_CONNECTION_LOST' || err.code === 'PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR') { // Connection to the MySQL server is usually
-            connection();                         // lost due to either server restart, or a
-        } else {                                      // connnection idle timeout (the wait_timeout
-          throw err;                                  // server variable configures this)
-        }
-      });
-})
-}
+const connection = () => {
+    const connectDB = () => {
+        db.connect((err) => {
+            if (err) {
+                console.error('Error connecting to MySQL:', err);
+                if (err.code === 'PROTOCOL_CONNECTION_LOST' || err.code === 'PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR') {
+                    console.error('Reconnecting to the database...');
+                    setTimeout(connectDB, 2000);
+                } else {
+                    throw err;
+                }
+            } else {
+                app.listen(4000, () => {
+                    console.log('Server is running on port 4000');
+                });
+            }
+        });
+    };
 
-connection()
+    // Handle MySQL errors and reconnect
+    db.on('error', (err) => {
+        console.error('DB error', err);
+        if (err.code === 'PROTOCOL_CONNECTION_LOST' || err.fatal) {
+            console.error('Reconnecting to the database...');
+            connectDB();
+        } else {
+            throw err;
+        }
+    });
+
+    // Initial database connection
+    connectDB();
+};
+
+connection();
 
 
 
