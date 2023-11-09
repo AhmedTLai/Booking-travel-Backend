@@ -99,17 +99,17 @@ const deleteTour = (req,res)=>{
 }
 
 
-const GetTours =(req,res) =>{
-    const GetToursQ = 'SELECT * FROM tours'
+const GetTours = (req, res) => {
+  const GetToursQ = 'SELECT * FROM tours';
 
-    db.query(GetToursQ,(err,data)=>{
-        if(err){
-            return res.status(500).json(err)
-        }
-        else{
-            return res.status(200).json(data)
-        }
-    })
-}
+  db.query(GetToursQ, (err, data) => {
+      if (err) {
+          console.error('Error in GetTours:', err);
+          return res.status(500).json({ error: 'Internal Server Error', details: err.message });
+      } else {
+          return res.status(200).json(data);
+      }
+  });
+};
 
 module.exports = {addTour,editTour,deleteTour,GetTours,UploadC}
