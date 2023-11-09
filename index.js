@@ -12,9 +12,7 @@ const app = express()
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
 app.use(cookieParser())
-app.use(cors({
-    credentials: true,
-}))
+app.use(cors())
 // app.use(function (req, res, next) {
 //     res.setHeader('Access-Control-Allow-Origin', '*');
 //     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
