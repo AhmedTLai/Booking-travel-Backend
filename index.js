@@ -14,17 +14,14 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors({
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 }))
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    next();
-    });
+// app.use(function (req, res, next) {
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+//     res.setHeader('Access-Control-Allow-Credentials', true);
+//     next();
+//     });
 // app.use((req, res, next) => {
 //     res.header("Access-Control-Allow-Origin", "http://192.168.1.129:5173");
 //     res.header("Access-Control-Allow-Methods", "*");
