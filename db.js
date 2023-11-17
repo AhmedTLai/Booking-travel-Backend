@@ -9,10 +9,12 @@ const d = require('mysql')
 // })
 
 const db = d.createPool({
+    
     user : 'ugdupomb9ci5b4xc',
     host: 'bbinbaphmj2m6s2sx3im-mysql.services.clever-cloud.com',
     database : 'bbinbaphmj2m6s2sx3im' ,
     password : '5sWiE7Y9m9eiomCaylLg',
+    connectionLimit : 10
 })
   
  
