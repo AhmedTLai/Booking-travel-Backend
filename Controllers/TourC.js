@@ -1,5 +1,5 @@
 const db = require('../db')
-
+const fs = require('fs')
 var file;
 
 
@@ -57,42 +57,110 @@ db.query(AddTourQ,[data],(err,result)=>{
 
 
 
-const editTour = (req, res) => { 
-    const { tourId } = req.params;
-    const updatedData = req.body; // Assume it's an object with fields to update
-  
-    const setClauses = [];
-    const values = [];
-  
-    // Iterate through the fields in updatedData
-    for (const field in updatedData) {
-      setClauses.push(`${field} = ?`);
-      values.push(updatedData[field]);
+const editTour = (req, res) => {
+  const { id } = req.params;
+  const updatedDataString = req.body.inp; // Assume it's a JSON string
+  const file = req.file;
+  // console.log(file);
+
+  if (!file && updatedDataString === undefined) {
+    return res.status(400).json({ error: 'No content provided. Please fill the inputs.' });
+  }
+
+  const getTour = 'SELECT * FROM tours WHERE tour_id=?';
+  db.query(getTour, [id], (err, data) => {
+    if (err) {
+      return res.status(500).json(err);
     }
-  
-    // Construct the SQL query
-    const updateQuery = `UPDATE tours SET ${setClauses.join(', ')} WHERE tour_id = ?`;
-    values.push(tourId);
-  
-    db.query(updateQuery, values, (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).json(err);
+
+    if (data.length > 0) {
+      const filePath = `C:\\Users\\Ahmed\\Desktop\\projects\\Fullstuck BookingTravel project\\Client\\public\\upload\\${data[0].photo}`;
+
+      // Check if either the file or updatedDataString is defined
+      if (file?.filename !== data[0].photo || updatedDataString !== undefined) {
+        // Initialize updatedData as an empty object
+        let updatedData = {};
+
+        // Try parsing the JSON string, catch potential errors
+        try {
+          if (updatedDataString && !file && typeof updatedDataString === 'string') {
+            updatedData = JSON.parse(updatedDataString);
+          } else {
+            updatedData = {};
+          }
+        } catch (error) {
+          console.error('Error parsing JSON string:', error);
+          return res.status(400).json({ error: 'Invalid JSON string in input data.' });
+        }
+
+        const setClauses = [];
+        const values = [];
+
+        for (const field in updatedData) {
+          setClauses.push(`${'`' + field + '`'}=?`);
+          values.push(updatedData[field]);
+        }
+
+        // Check if the file is defined
+        if (file) {
+          setClauses.push('`photo`=?');
+          values.push(file?.filename);
+        }
+
+        const updateQuery = `UPDATE tours SET ${setClauses.join(', ')} WHERE tour_id = ?`;
+        values.push(id);
+
+        db.query(updateQuery, values, (err, result) => {
+          if (err) {
+            console.error(err);
+            res.status(500).json(err);
+          } else {
+            fs.unlink(filePath, (err) => {
+              if (err) {
+                console.error('Error deleting file:', err);
+                res.status(500).json(err);
+              } else {
+                console.log('File deleted successfully');
+                res.json({ message: 'Tour updated successfully.' });
+              }
+            });
+          }
+        });
       } else {
-        res.json({ message: 'Tour updated successfully.' });
+        return res.status(400).json('File already stored.');
       }
-    });
-  };
+    }
+  });
+};
 
 const deleteTour = (req,res)=>{
     const deleteTourQ = 'DELETE FROM tours WHERE tour_id=?'
+    const getTour = 'SELECT * FROM tours WHERE tour_id=?'
     const id = req.params.id
-    db.query(deleteTourQ,[id],(err,result)=>{
+    db.query(getTour,[id],(err,result)=>{
         if(err){
             return res.status(500).json(err)
         }
         else{
-            return res.status(200).json('Tour deleted')
+            if(result.length > 0){
+              db.query(deleteTourQ,[id],(err,data)=>{
+                if(err){
+                  return res.status(500).json(err)
+              }
+
+                const filePath = `C:\\Users\\Ahmed\\Desktop\\projects\\Fullstuck BookingTravel project\\Client\\public\\upload\\${result[0].photo}`
+
+              fs.unlink(filePath, (err) => {
+                if (err) {
+                  console.error('Error deleting file:', err);
+                } else {
+                  console.log('File deleted successfully.');
+                }
+              });
+
+              return res.status(200).json('success')
+              })
+            }
         }
     })
 

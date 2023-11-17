@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 
 
-export const verifyToken = (req,res,next)=>{
+ const verifyToken = (req,res,next)=>{
     const token = req.cookies.Auth_Token
 
     if(!token){
@@ -10,14 +10,15 @@ export const verifyToken = (req,res,next)=>{
     jwt.verify(token,'Auth_Token',(err,user)=>{
         if(err) {return res.status(401).json('Token is invalid')}
         req.user = user
+        console.log(req.user)
         next()
     })
 }
 
 
-export const verifyUser = (req,res,next)=>{
+ const verifyUser = (req,res,next)=>{
     verifyToken(req,res,next ,()=>{
-        if(req,user.id == req.params.id && req.user.admin){
+        if(req.user.id == req.params.id && req.user.admin){
             next()
         }
         else{
@@ -25,9 +26,9 @@ export const verifyUser = (req,res,next)=>{
         }
     })
 }
+ 
 
-
-export const verifyAdmin = (req,res,next)=>{
+ const verifyAdmin = (req,res,next)=>{
     verifyToken(req,res,next ,()=>{
         if(req.user.admin){
             next()
@@ -38,4 +39,4 @@ export const verifyAdmin = (req,res,next)=>{
     })
 }
 
-
+module.exports = {verifyAdmin,verifyToken,verifyUser}

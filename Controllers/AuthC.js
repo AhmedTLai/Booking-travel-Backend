@@ -62,4 +62,10 @@ const LoginC = (req, res) => {
 };
 
 
-module.exports = {RegisterC,LoginC}
+
+const LogOut = (req,res)=>{
+res.status(200).json('loged out')
+}
+
+
+module.exports = {RegisterC,LoginC,LogOut}

@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const AuthR = require('./routes/AuthR')
 const TourR = require('./routes/tourR') 
+const { verifyAdmin, verifyUser, verifyToken } = require('./util/verifyToken')
 const app = express()
 
 
@@ -14,7 +15,7 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors({
     credentials: true,
-    // origin: 'http://192.168.1.129:5173',
+    origin: 'http://localhost:5173',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 }))
 // app.use(function (req, res, next) {
@@ -31,11 +32,13 @@ app.use(cors({
 //     res.header("Access-Control-Allow-Headers", "Content-Type");
 //     next();
 //   })
-app.use((req, res, next) => {
-    console.log('Request Headers:', req.headers);
-    next();
- });
-
+// app.use((req, res, next) => {
+//     console.log('Request Headers:', req);
+//     next();
+//  }); 
+// app.use(verifyAdmin)
+// app.use(verifyUser)
+// app.use(verifyToken)  
 
 app.use('/api/user',AuthR)
 app.use('/api/tour',TourR)
@@ -59,7 +62,7 @@ app.get('/',(req,res)=>{
 
 const connection = () => {
     const connectDB = () => {
-        db.connect((err) => {
+        db.getConnection((err) => {
             if (err) {
                 console.error('Error connecting to MySQL:', err);
                 throw err
