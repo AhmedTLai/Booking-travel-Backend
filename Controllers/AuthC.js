@@ -49,7 +49,7 @@ const LoginC = (req, res) => {
 
                 const { password, ...other } = result[0]; // Removed .data
                 res.cookie('Auth_Token', token, {
-                    httpOnly: true,
+                    httpOnly: false,
                     secure: true,
                 }).status(200).json(other); // Send 'other' instead of 'data'
             } else {
