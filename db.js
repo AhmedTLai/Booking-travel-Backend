@@ -15,7 +15,7 @@ const db = d.createPool({
     database : 'bbinbaphmj2m6s2sx3im' ,
     password : '5sWiE7Y9m9eiomCaylLg',
     waitForConnections: true,
-    connectionLimit: 10, // Adjust based on your requirements
+    connectionLimit: 1000, // Adjust based on your requirements
     queueLimit: 0
 })
   
