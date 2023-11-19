@@ -50,8 +50,8 @@ const LoginC = (req, res) => {
                 const { password, ...other } = result[0]; // Removed .data
                 res.cookie('Auth_Token', token, {
                     httpOnly: false,
-                    secure: true,
-                }).status(200).json(other); // Send 'other' instead of 'data'
+                    sameSite: 'None', // Required for cross-site cookies in browsers that enforce SameSite restrictions
+                  }).status(200).json(other); // Send 'other' instead of 'data'
             } else {
                 return res.status(400).json('Wrong password, please try again');
             }
