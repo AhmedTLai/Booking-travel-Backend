@@ -76,7 +76,8 @@ const editTour = (req, res) => {
     }
 
     if (data.length > 0) {
-      const basePath = path.join(__dirname, '..', '..','..','client','public', 'upload');
+      // const basePath = path.join(__dirname, '..', '..','..','client','public', 'upload');
+      const basePath = "C:\\Users\\Ahmed\\Desktop\\projects\\Fullstuck BookingTravel project\\Client\\public\\upload\\${data[0].photo}"
 
       // Assuming 'data[0].photo' contains the file name (e.g., 'example.jpg')
       const fileName = data[0].photo;

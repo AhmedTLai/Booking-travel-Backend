@@ -5,8 +5,8 @@ const { verifyAdmin } = require('../util/verifyToken');
 const path = require('path');
 
 // Upload Config
-const basePath = path.join(__dirname, '..', '..','..','client','public', 'upload');
-
+// const basePath = path.join(__dirname, '..', '..','..','client','public', 'upload');
+const basePath = "C:\\Users\\Ahmed\\Desktop\\projects\\Fullstuck BookingTravel project\\Client\\public\\upload\\"
       // Assuming 'data[0].photo' contains the file name (e.g., 'example.jpg')
 
 const storage = multer.diskStorage({
