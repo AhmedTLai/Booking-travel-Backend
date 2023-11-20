@@ -5,7 +5,18 @@ const { verifyAdmin } = require('../util/verifyToken');
 const path = require('path')
 const filePath = 'C:\\Users\\Ahmed\\Desktop\\projects\\Fullstuck BookingTravel project\\Client\\public\\upload'
 // Upload Config
-const url = path.join(filePath,'.')
+const url = path.join(
+  'C:', 
+  'Users', 
+  'Ahmed', 
+  'Desktop', 
+  'projects', 
+  'Fullstuck BookingTravel project', 
+  'Client', 
+  'public', 
+  'upload', 
+  'your_filename_here.jpg'
+);
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     
