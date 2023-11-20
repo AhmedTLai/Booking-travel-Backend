@@ -2,17 +2,21 @@ const { addTour, editTour, deleteTour, GetTours, UploadC } = require('../Control
 const router = require('express').Router();
 const multer = require('multer');
 const { verifyAdmin } = require('../util/verifyToken');
-
+const path = require('path')
+const filePath = 'C:\\Users\\Ahmed\\Desktop\\projects\\Fullstuck BookingTravel project\\Client\\public\\upload'
 // Upload Config
+const url = path.join(filePath,'.')
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
+    
     // Define the destination folder where uploaded files will be stored
-    cb(null, 'C:\\Users\\Ahmed\\Desktop\\projects\\Fullstuck BookingTravel project\\Client\\public\\upload\\');
+    cb(null,url );
   },
   filename: function (req, file, cb) {
     // Define the filename for the uploaded file
-    const cleanedFilename = file.originalname.replace(/\//g, ''); // Remove '/'
-    cb(null, Date.now() + '-' + cleanedFilename);
+    console.log()
+    // const cleanedFilename = file.originalname.replace(/\//g, ''); // Remove '/'
+    cb(null, Date.now() + '-' + file.originalname);
   },
 }); 
 
