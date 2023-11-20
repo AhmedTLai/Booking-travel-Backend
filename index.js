@@ -9,7 +9,10 @@ const { verifyAdmin, verifyUser, verifyToken } = require('./util/verifyToken')
 const app = express()
 
 
-
+app.use((req,res,next)=>{
+    console.log('working')
+    next()
+})
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
 app.use(cookieParser())
@@ -74,7 +77,7 @@ const connection = () => {
                 // }
             } else {
                 app.listen(4000, () => {
-                    console.log('Server is running on port 4000');
+                    console.log('worked');
                 });
             }
         });
