@@ -1,5 +1,7 @@
 const db = require('../db')
 const fs = require('fs')
+const path = require('path');
+
 var file;
 
 
@@ -74,8 +76,13 @@ const editTour = (req, res) => {
     }
 
     if (data.length > 0) {
-      const filePath = `C:\\Users\\Ahmed\\Desktop\\projects\\Fullstuck BookingTravel project\\Client\\public\\upload\\${data[0].photo}`;
+      // const basePath = path.join(__dirname, '..', '..','..','client','public', 'upload');
+      const basePath = "C:\\Users\\Ahmed\\Desktop\\projects\\Fullstuck BookingTravel project\\Client\\public\\upload\\${data[0].photo}"
 
+      // Assuming 'data[0].photo' contains the file name (e.g., 'example.jpg')
+      const fileName = data[0].photo;
+      
+      const filePath = path.join(basePath, fileName);
       // Check if either the file or updatedDataString is defined
       if (file?.filename !== data[0].photo || updatedDataString !== undefined) {
         // Initialize updatedData as an empty object
